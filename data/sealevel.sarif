@@ -1,0 +1,2233 @@
+{
+    "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "tool": {
+                "driver": {
+                    "name": "radar",
+                    "informationUri": "https://github.com/auditware/radar",
+                    "rules": [
+                        {
+                            "id": "Account_Data_Matching",
+                            "name": "Account Data Matching",
+                            "shortDescription": {
+                                "text": "Account Data Matching"
+                            },
+                            "fullDescription": {
+                                "text": "Unpacking account structures without verifying authorization might allow an attacker to view or modify account data unintentionally. Therefore, account unpack operations should be accompanied by appropriate ownership verification."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "3.0"
+                            }
+                        },
+                        {
+                            "id": "Account_Reinitialization",
+                            "name": "Account Reinitialization",
+                            "shortDescription": {
+                                "text": "Account Reinitialization"
+                            },
+                            "fullDescription": {
+                                "text": "When account initialization is not properly validated against reinitialization attempts, callers of the program may try to reinitialize an existing account to manipulate its data and state."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "5.0"
+                            }
+                        },
+                        {
+                            "id": "Arbitrary_Cross-Program_Invocation",
+                            "name": "Arbitrary Cross-Program Invocation",
+                            "shortDescription": {
+                                "text": "Arbitrary Cross-Program Invocation"
+                            },
+                            "fullDescription": {
+                                "text": "If not validated properly, when a program implements a Cross-Program Invocation, callers of the program may provide an arbitrary or untrusted program - manipulating the program to call instructions on an untrusted target program."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "medium",
+                                "security-severity": "5.0"
+                            }
+                        },
+                        {
+                            "id": "Closing_Accounts_Insecurely",
+                            "name": "Closing Accounts Insecurely",
+                            "shortDescription": {
+                                "text": "Closing Accounts Insecurely"
+                            },
+                            "fullDescription": {
+                                "text": "Closing accounts in Solana requires transferring the lamports remaining in the account. When lamports are zeroed, the Solana runtime eventually closes the account. Improperly setting the account for closure could cause account reinitialization type attacks."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "5.0"
+                            }
+                        },
+                        {
+                            "id": "Duplicate_Mutable_Accounts",
+                            "name": "Duplicate Mutable Accounts",
+                            "shortDescription": {
+                                "text": "Duplicate Mutable Accounts"
+                            },
+                            "fullDescription": {
+                                "text": "When there are two or more accounts with mutable data, a check must be in place to ensure mutation of each account is differentiated properly, to avoid unintended data modification of other accounts."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "medium",
+                                "security-severity": "5.0"
+                            }
+                        },
+                        {
+                            "id": "Missing_Bump_Seed_Canonicalization",
+                            "name": "Missing Bump Seed Canonicalization",
+                            "shortDescription": {
+                                "text": "Missing Bump Seed Canonicalization"
+                            },
+                            "fullDescription": {
+                                "text": "If a program is deriving a bump seed for a Program Derived Address (PDA) without ensuring its uniqueness, it could lead to collisions or unexpected insecure logical occurrences. Check for usage of program_id which is not part of Pubkey::find_program_address and there is a usage of \"bump\""
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "5.0"
+                            }
+                        },
+                        {
+                            "id": "Missing_Owner_Check",
+                            "name": "Missing Owner Check",
+                            "shortDescription": {
+                                "text": "Missing Owner Check"
+                            },
+                            "fullDescription": {
+                                "text": "The Account struct includes an owner field indicating the key associated with that account's owner. This field should be used to ensure a caller of an owner-only intended functionality, is in fact the owner."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "3.0"
+                            }
+                        },
+                        {
+                            "id": "Missing_Signer_Check",
+                            "name": "Missing Signer Check",
+                            "shortDescription": {
+                                "text": "Missing Signer Check"
+                            },
+                            "fullDescription": {
+                                "text": "Signer checks verify whether an account owner has authorized the requested transaction. Failing to perform these checks might result in unintended operations executable by any account."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "3.0"
+                            }
+                        },
+                        {
+                            "id": "PDA_Sharing",
+                            "name": "PDA Sharing",
+                            "shortDescription": {
+                                "text": "PDA Sharing"
+                            },
+                            "fullDescription": {
+                                "text": "Reuse of a PDA across multiple authority domains can lead to unauthorized data or funds access."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "3.0"
+                            }
+                        },
+                        {
+                            "id": "Type_Cosplay",
+                            "name": "Type Cosplay",
+                            "shortDescription": {
+                                "text": "Type Cosplay"
+                            },
+                            "fullDescription": {
+                                "text": "When two account types can be deserialized with the exact same values, a malicious user could substitute between the account types, leading to unexpected execution and possible authorization bypass depending on how the data is used. Using try_from_slice does not check for the necessary discriminator."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "3.0"
+                            }
+                        },
+                        {
+                            "id": "Unvalidated_Sysvar_Account",
+                            "name": "Unvalidated Sysvar Account",
+                            "shortDescription": {
+                                "text": "Unvalidated Sysvar Account"
+                            },
+                            "fullDescription": {
+                                "text": "Sysvars are special Solana accounts that provide access to dynamically updated data. When using them, it's important to verify the interaction is made to the real inteded system variable account, and not to fraudulent or inorrect ones."
+                            },
+                            "help": {
+                                "text": "",
+                                "markdown": ""
+                            },
+                            "properties": {
+                                "precision": "low",
+                                "security-severity": "3.0"
+                            }
+                        }
+                    ]
+                }
+            },
+            "artifacts": [
+                {
+                    "location": {
+                        "uri": "file://programs/1-account-data-matching/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/4-initialization/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/5-arbitrary-cpi/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/9-closing-accounts/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/9-closing-accounts/insecure-still/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/6-duplicate-mutable-accounts/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/7-bump-seed-canonicalization/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/8-pda-sharing/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/5-arbitrary-cpi/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/8-pda-sharing/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/2-owner-checks/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/4-initialization/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/8-pda-sharing/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/9-closing-accounts/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/3-type-cosplay/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/5-arbitrary-cpi/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/4-initialization/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/0-signer-authorization/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/1-account-data-matching/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/9-closing-accounts/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/0-signer-authorization/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/10-sysvar-address-checking/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/0-signer-authorization/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/10-sysvar-address-checking/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/6-duplicate-mutable-accounts/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/7-bump-seed-canonicalization/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/10-sysvar-address-checking/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/9-closing-accounts/insecure-still-still/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/6-duplicate-mutable-accounts/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/7-bump-seed-canonicalization/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/2-owner-checks/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/3-type-cosplay/secure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/3-type-cosplay/insecure/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/2-owner-checks/recommended/src/lib.rs"
+                    }
+                },
+                {
+                    "location": {
+                        "uri": "file://programs/1-account-data-matching/recommended/src/lib.rs"
+                    }
+                }
+            ],
+            "results": [
+                {
+                    "ruleId": "Account_Data_Matching",
+                    "ruleIndex": 0,
+                    "level": "note",
+                    "message": {
+                        "text": "Account Data Matching"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/1-account-data-matching/insecure/src/lib.rs",
+                                    "index": 0
+                                },
+                                "region": {
+                                    "startLine": 12,
+                                    "startColumn": 13,
+                                    "endColumn": 18
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Account_Reinitialization",
+                    "ruleIndex": 1,
+                    "level": "warning",
+                    "message": {
+                        "text": "Account Reinitialization"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/insecure/src/lib.rs",
+                                    "index": 1
+                                },
+                                "region": {
+                                    "startLine": 11,
+                                    "startColumn": 12,
+                                    "endColumn": 22
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Arbitrary_Cross-Program_Invocation",
+                    "ruleIndex": 2,
+                    "level": "warning",
+                    "message": {
+                        "text": "Arbitrary Cross-Program Invocation"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/insecure/src/lib.rs",
+                                    "index": 2
+                                },
+                                "region": {
+                                    "startLine": 10,
+                                    "startColumn": 12,
+                                    "endColumn": 15
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Closing_Accounts_Insecurely",
+                    "ruleIndex": 3,
+                    "level": "warning",
+                    "message": {
+                        "text": "Closing Accounts Insecurely"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure/src/lib.rs",
+                                    "index": 3
+                                },
+                                "region": {
+                                    "startLine": 12,
+                                    "startColumn": 45,
+                                    "endColumn": 55
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Closing_Accounts_Insecurely",
+                    "ruleIndex": 3,
+                    "level": "warning",
+                    "message": {
+                        "text": "Closing Accounts Insecurely"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure-still/src/lib.rs",
+                                    "index": 4
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 45,
+                                    "endColumn": 55
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Duplicate_Mutable_Accounts",
+                    "ruleIndex": 4,
+                    "level": "warning",
+                    "message": {
+                        "text": "Duplicate Mutable Accounts"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/insecure/src/lib.rs",
+                                    "index": 5
+                                },
+                                "region": {
+                                    "startLine": 10,
+                                    "startColumn": 13,
+                                    "endColumn": 19
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Duplicate_Mutable_Accounts",
+                    "ruleIndex": 4,
+                    "level": "warning",
+                    "message": {
+                        "text": "Duplicate Mutable Accounts"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/insecure/src/lib.rs",
+                                    "index": 5
+                                },
+                                "region": {
+                                    "startLine": 11,
+                                    "startColumn": 13,
+                                    "endColumn": 19
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Bump_Seed_Canonicalization",
+                    "ruleIndex": 5,
+                    "level": "warning",
+                    "message": {
+                        "text": "Missing Bump Seed Canonicalization"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/7-bump-seed-canonicalization/insecure/src/lib.rs",
+                                    "index": 6
+                                },
+                                "region": {
+                                    "startLine": 11,
+                                    "startColumn": 88,
+                                    "endColumn": 98
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/secure/src/lib.rs",
+                                    "index": 7
+                                },
+                                "region": {
+                                    "startLine": 20,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/secure/src/lib.rs",
+                                    "index": 8
+                                },
+                                "region": {
+                                    "startLine": 32,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/insecure/src/lib.rs",
+                                    "index": 9
+                                },
+                                "region": {
+                                    "startLine": 17,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/2-owner-checks/insecure/src/lib.rs",
+                                    "index": 10
+                                },
+                                "region": {
+                                    "startLine": 22,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/secure/src/lib.rs",
+                                    "index": 11
+                                },
+                                "region": {
+                                    "startLine": 28,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/insecure/src/lib.rs",
+                                    "index": 2
+                                },
+                                "region": {
+                                    "startLine": 29,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/insecure/src/lib.rs",
+                                    "index": 1
+                                },
+                                "region": {
+                                    "startLine": 29,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/recommended/src/lib.rs",
+                                    "index": 12
+                                },
+                                "region": {
+                                    "startLine": 20,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/secure/src/lib.rs",
+                                    "index": 13
+                                },
+                                "region": {
+                                    "startLine": 56,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/3-type-cosplay/recommended/src/lib.rs",
+                                    "index": 14
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/recommended/src/lib.rs",
+                                    "index": 15
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure/src/lib.rs",
+                                    "index": 3
+                                },
+                                "region": {
+                                    "startLine": 21,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/recommended/src/lib.rs",
+                                    "index": 16
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/0-signer-authorization/secure/src/lib.rs",
+                                    "index": 17
+                                },
+                                "region": {
+                                    "startLine": 18,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/1-account-data-matching/secure/src/lib.rs",
+                                    "index": 18
+                                },
+                                "region": {
+                                    "startLine": 21,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/recommended/src/lib.rs",
+                                    "index": 19
+                                },
+                                "region": {
+                                    "startLine": 14,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/0-signer-authorization/insecure/src/lib.rs",
+                                    "index": 20
+                                },
+                                "region": {
+                                    "startLine": 14,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/1-account-data-matching/insecure/src/lib.rs",
+                                    "index": 0
+                                },
+                                "region": {
+                                    "startLine": 18,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/10-sysvar-address-checking/secure/src/lib.rs",
+                                    "index": 21
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure-still/src/lib.rs",
+                                    "index": 4
+                                },
+                                "region": {
+                                    "startLine": 29,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/0-signer-authorization/recommended/src/lib.rs",
+                                    "index": 22
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/10-sysvar-address-checking/insecure/src/lib.rs",
+                                    "index": 23
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/secure/src/lib.rs",
+                                    "index": 24
+                                },
+                                "region": {
+                                    "startLine": 22,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/7-bump-seed-canonicalization/secure/src/lib.rs",
+                                    "index": 25
+                                },
+                                "region": {
+                                    "startLine": 30,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/insecure/src/lib.rs",
+                                    "index": 5
+                                },
+                                "region": {
+                                    "startLine": 19,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/7-bump-seed-canonicalization/insecure/src/lib.rs",
+                                    "index": 6
+                                },
+                                "region": {
+                                    "startLine": 22,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/10-sysvar-address-checking/recommended/src/lib.rs",
+                                    "index": 26
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure-still-still/src/lib.rs",
+                                    "index": 27
+                                },
+                                "region": {
+                                    "startLine": 36,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/recommended/src/lib.rs",
+                                    "index": 28
+                                },
+                                "region": {
+                                    "startLine": 19,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Owner_Check",
+                    "ruleIndex": 6,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Owner Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/7-bump-seed-canonicalization/recommended/src/lib.rs",
+                                    "index": 29
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/secure/src/lib.rs",
+                                    "index": 7
+                                },
+                                "region": {
+                                    "startLine": 20,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/2-owner-checks/secure/src/lib.rs",
+                                    "index": 30
+                                },
+                                "region": {
+                                    "startLine": 25,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/3-type-cosplay/secure/src/lib.rs",
+                                    "index": 31
+                                },
+                                "region": {
+                                    "startLine": 26,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/secure/src/lib.rs",
+                                    "index": 8
+                                },
+                                "region": {
+                                    "startLine": 32,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/insecure/src/lib.rs",
+                                    "index": 9
+                                },
+                                "region": {
+                                    "startLine": 17,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/2-owner-checks/insecure/src/lib.rs",
+                                    "index": 10
+                                },
+                                "region": {
+                                    "startLine": 22,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/3-type-cosplay/insecure/src/lib.rs",
+                                    "index": 32
+                                },
+                                "region": {
+                                    "startLine": 23,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/secure/src/lib.rs",
+                                    "index": 11
+                                },
+                                "region": {
+                                    "startLine": 28,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/insecure/src/lib.rs",
+                                    "index": 2
+                                },
+                                "region": {
+                                    "startLine": 29,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/insecure/src/lib.rs",
+                                    "index": 1
+                                },
+                                "region": {
+                                    "startLine": 29,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/recommended/src/lib.rs",
+                                    "index": 12
+                                },
+                                "region": {
+                                    "startLine": 20,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/secure/src/lib.rs",
+                                    "index": 13
+                                },
+                                "region": {
+                                    "startLine": 56,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/2-owner-checks/recommended/src/lib.rs",
+                                    "index": 33
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/3-type-cosplay/recommended/src/lib.rs",
+                                    "index": 14
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/recommended/src/lib.rs",
+                                    "index": 15
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure/src/lib.rs",
+                                    "index": 3
+                                },
+                                "region": {
+                                    "startLine": 21,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/recommended/src/lib.rs",
+                                    "index": 16
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/1-account-data-matching/secure/src/lib.rs",
+                                    "index": 18
+                                },
+                                "region": {
+                                    "startLine": 21,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/recommended/src/lib.rs",
+                                    "index": 19
+                                },
+                                "region": {
+                                    "startLine": 14,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/0-signer-authorization/insecure/src/lib.rs",
+                                    "index": 20
+                                },
+                                "region": {
+                                    "startLine": 14,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/1-account-data-matching/insecure/src/lib.rs",
+                                    "index": 0
+                                },
+                                "region": {
+                                    "startLine": 18,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/10-sysvar-address-checking/secure/src/lib.rs",
+                                    "index": 21
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure-still/src/lib.rs",
+                                    "index": 4
+                                },
+                                "region": {
+                                    "startLine": 29,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/0-signer-authorization/recommended/src/lib.rs",
+                                    "index": 22
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/1-account-data-matching/recommended/src/lib.rs",
+                                    "index": 34
+                                },
+                                "region": {
+                                    "startLine": 16,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/10-sysvar-address-checking/insecure/src/lib.rs",
+                                    "index": 23
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/secure/src/lib.rs",
+                                    "index": 24
+                                },
+                                "region": {
+                                    "startLine": 22,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/7-bump-seed-canonicalization/secure/src/lib.rs",
+                                    "index": 25
+                                },
+                                "region": {
+                                    "startLine": 30,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/insecure/src/lib.rs",
+                                    "index": 5
+                                },
+                                "region": {
+                                    "startLine": 19,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/7-bump-seed-canonicalization/insecure/src/lib.rs",
+                                    "index": 6
+                                },
+                                "region": {
+                                    "startLine": 22,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/10-sysvar-address-checking/recommended/src/lib.rs",
+                                    "index": 26
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/9-closing-accounts/insecure-still-still/src/lib.rs",
+                                    "index": 27
+                                },
+                                "region": {
+                                    "startLine": 36,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/6-duplicate-mutable-accounts/recommended/src/lib.rs",
+                                    "index": 28
+                                },
+                                "region": {
+                                    "startLine": 19,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Missing_Signer_Check",
+                    "ruleIndex": 7,
+                    "level": "note",
+                    "message": {
+                        "text": "Missing Signer Check"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/7-bump-seed-canonicalization/recommended/src/lib.rs",
+                                    "index": 29
+                                },
+                                "region": {
+                                    "startLine": 15,
+                                    "startColumn": 3,
+                                    "endColumn": 9
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "PDA_Sharing",
+                    "ruleIndex": 8,
+                    "level": "note",
+                    "message": {
+                        "text": "PDA Sharing"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/secure/src/lib.rs",
+                                    "index": 7
+                                },
+                                "region": {
+                                    "startLine": 2,
+                                    "startColumn": 17,
+                                    "endColumn": 22
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "PDA_Sharing",
+                    "ruleIndex": 8,
+                    "level": "note",
+                    "message": {
+                        "text": "PDA Sharing"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/8-pda-sharing/insecure/src/lib.rs",
+                                    "index": 9
+                                },
+                                "region": {
+                                    "startLine": 2,
+                                    "startColumn": 17,
+                                    "endColumn": 22
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "PDA_Sharing",
+                    "ruleIndex": 8,
+                    "level": "note",
+                    "message": {
+                        "text": "PDA Sharing"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/5-arbitrary-cpi/recommended/src/lib.rs",
+                                    "index": 15
+                                },
+                                "region": {
+                                    "startLine": 2,
+                                    "startColumn": 17,
+                                    "endColumn": 22
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Type_Cosplay",
+                    "ruleIndex": 9,
+                    "level": "note",
+                    "message": {
+                        "text": "Type Cosplay"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/3-type-cosplay/secure/src/lib.rs",
+                                    "index": 31
+                                },
+                                "region": {
+                                    "startLine": 11,
+                                    "startColumn": 26,
+                                    "endColumn": 40
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Type_Cosplay",
+                    "ruleIndex": 9,
+                    "level": "note",
+                    "message": {
+                        "text": "Type Cosplay"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/3-type-cosplay/insecure/src/lib.rs",
+                                    "index": 32
+                                },
+                                "region": {
+                                    "startLine": 11,
+                                    "startColumn": 26,
+                                    "endColumn": 40
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Type_Cosplay",
+                    "ruleIndex": 9,
+                    "level": "note",
+                    "message": {
+                        "text": "Type Cosplay"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/secure/src/lib.rs",
+                                    "index": 11
+                                },
+                                "region": {
+                                    "startLine": 12,
+                                    "startColumn": 30,
+                                    "endColumn": 44
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Type_Cosplay",
+                    "ruleIndex": 9,
+                    "level": "note",
+                    "message": {
+                        "text": "Type Cosplay"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/4-initialization/insecure/src/lib.rs",
+                                    "index": 1
+                                },
+                                "region": {
+                                    "startLine": 12,
+                                    "startColumn": 30,
+                                    "endColumn": 44
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "Unvalidated_Sysvar_Account",
+                    "ruleIndex": 10,
+                    "level": "note",
+                    "message": {
+                        "text": "Unvalidated Sysvar Account"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "programs/10-sysvar-address-checking/insecure/src/lib.rs",
+                                    "index": 23
+                                },
+                                "region": {
+                                    "startLine": 10,
+                                    "startColumn": 45,
+                                    "endColumn": 49
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
