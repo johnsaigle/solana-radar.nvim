@@ -104,7 +104,6 @@ function M.scan()
                                     rules[rule.id] = rule
                                 end
 
-                                -- Convert results to diagnostics
                                 local filtered_results = {}
                                 for _, result in ipairs(run.results) do
                                     if is_valid_diagnostic(result, filepath) then
@@ -112,6 +111,7 @@ function M.scan()
                                     end
                                 end
 
+                                -- Convert results to diagnostics
                                 for rule_id, result in pairs(filtered_results) do
                                     local rule = rules[rule_id]
                                     if not rule then goto continue end
