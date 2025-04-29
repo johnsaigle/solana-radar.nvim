@@ -1,6 +1,5 @@
 local M = {}
 
-local namespace = nil
 local config = require('solana-radar.config')
 
 local function matches_filename(result, bufname)
@@ -18,9 +17,9 @@ local function is_valid_diagnostic(result, bufname)
 end
 
 function M.scan()
-    local null_ls_ok, null_ls = pcall(require, "null-ls")
+    local null_ls_ok, null_ls = pcall(require, "none-ls")
     if not null_ls_ok then
-        vim.notify("null-ls is required for radar-nvim", vim.log.levels.ERROR)
+        vim.notify("none-ls is required for radar-nvim", vim.log.levels.ERROR)
         return
     end
 
@@ -30,15 +29,6 @@ function M.scan()
         generator = {
             runtime_condition = function()
                 return config.enabled
-            end,
-            on_attach = function(client, bufnr)
-                vim.api.nvim_buf_attach(bufnr, false, {
-                    on_load = function()
-                        if config.enabled then
-                            null_ls.generator()({ bufnr = bufnr })
-                        end
-                    end
-                })
             end,
             fn = function(params)
                 -- Reset previous runs
@@ -77,9 +67,12 @@ function M.scan()
                         text = true,
                         cwd = cwd,
                     },
-                    function(obj)
+                    function()
                         -- Open resulting SARIF file, parse, read results.
                         local fd = vim.uv.fs_open(temp_sarif, "r", 438)
+                        if fd == nil then
+                            vim.notify(string.format("Could not open sarif file %s", temp_sarif), vim.log.levels.ERROR)
+                        end
                         local stat = vim.uv.fs_fstat(fd)
                         vim.uv.fs_read(fd, stat.size, 0, function(err, data)
                             vim.uv.fs_close(fd)
