@@ -17,7 +17,7 @@ local function is_valid_diagnostic(result, bufname)
 end
 
 function M.scan()
-    local null_ls_ok, null_ls = pcall(require, "none-ls")
+    local null_ls_ok, null_ls = pcall(require, "null-ls")
     if not null_ls_ok then
         vim.notify("none-ls is required for radar-nvim", vim.log.levels.ERROR)
         return
